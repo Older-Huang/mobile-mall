@@ -25,6 +25,8 @@
 	}
 </script>
 <style lang="less">
-
-
+	.van-icon-like{
+		color: #f50 !important;
+	}
+	
 </style>

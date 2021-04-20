@@ -18,6 +18,17 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+
+//每次刷新获取用户信息
+// if(sessionStorage.getItem(token)){
+// 	reqUserInfo().then(data=>{
+// 		console.log(data)
+// 	})
+// }
+//
+//调用store中的请求 重新获取用户信息
+store.dispatch("getUserInfo")
+
 //引入图片加载失败指令
 import defaultImg from './directive/defaultImg';
 Vue.use(defaultImg);

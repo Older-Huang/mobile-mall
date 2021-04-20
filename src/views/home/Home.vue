@@ -25,9 +25,7 @@
 </template>
 
 <script>
-	import {
-		Loading
-	} from 'element-ui';
+	
 	import {
 		reqHomeData
 	} from 'network/api'
@@ -85,16 +83,7 @@
 					if (this.page > this.totalPages) {
 						return this.$toast('没有更多数据')
 					}
-					//加载事件
-					let loadingInstance = Loading.service({
-						text: '拼命加载中'
-					});
 					this.getHomeData(this.page)
-					setTimeout(_ => {
-						this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-							loadingInstance.close();
-						});
-					}, 1000)
 				}
 			},
 			//图片加载失败 显示默认的图片
@@ -128,7 +117,7 @@
 	}
 
 	.pContent {
-		padding: 4px;
+		padding: .16rem .08rem;
 		display: flex;
 		justify-content: space-around;
 		flex-wrap: wrap;
@@ -136,11 +125,11 @@
 
 		.pItem {
 			width: 48%;
-			padding: 0.3vw 0.3vw 50px 0;
+			padding: 0.3vw 0.3vw 1rem 0;
 			box-sizing: border-box;
 			box-shadow: 0 0 3px rgba(100, 100, 100, 80%);
-			margin-bottom: 10px;
-			border-radius: 5px;
+			margin-bottom: .2rem;
+			border-radius: .1rem;
 			position: relative;
 
 			img {
@@ -148,15 +137,15 @@
 			}
 
 			.bottom {
-				padding: 3px;
+				padding: .06rem;
 				box-sizing: border-box;
 				position: absolute;
-				bottom: 3px;
+				bottom: .06rem;
 				left: 0;
 				right: 0;
 
 				h3 {
-					font-size: 14px;
+					font-size: .28rem;
 					white-space: nowrap;
 					overflow-x: hidden;
 					text-overflow: ellipsis;

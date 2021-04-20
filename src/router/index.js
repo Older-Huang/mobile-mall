@@ -6,6 +6,7 @@ const Home = () => import('views/home/Home')
 const Cart = () => import('views/cart/Cart')
 const Me = () => import('views/me/Me')
 const Detial = () => import('views/detial/Detial')
+const Login = () => import('views/login/Login')
 
 const routes = [{
 		path: '/',
@@ -22,7 +23,15 @@ const routes = [{
 	{
 		path: '/cart',
 		name: 'Cart',
-		component: Cart
+		component: Cart,
+		meta:{
+		  isLogin:true
+		}
+	},
+	{
+		path: '/login',
+		name: 'Login',
+		component: Login
 	},
 	{
 		path: '/me',
@@ -46,5 +55,23 @@ const router = new VueRouter({
 	base: process.env.BASE_URL,
 	routes
 })
+
+// 全局前置路由守卫
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  if(to.meta.isLogin){
+    //需要判断是否已经登录
+    if(sessionStorage.getItem("token")){
+      //已经登陆
+      next()
+    }else{
+      next("/login")
+    }
+  }else{
+    next()
+  }
+ 
+})
+
 
 export default router
