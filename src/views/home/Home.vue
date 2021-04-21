@@ -104,6 +104,15 @@
 				this.totalPages = data.totalPages
 				this.flag = false
 			}
+		},
+		//回到之前的滚动位置
+		activated() {
+		  this.$refs.main.scrollTop = this.currentScrollTop
+		},
+		//获取离开前的滚动高度
+		beforeRouteLeave(to,from,next){
+		  this.currentScrollTop = this.$refs.main.scrollTop
+		  next()
 		}
 
 	}

@@ -53,7 +53,7 @@
 			<!-- 判断当前商品是否已经收藏 -->
 			<van-goods-action-icon :icon="isLike ? 'like' : 'like-o'" text="收藏" @click="likeClick" />
 			<van-goods-action-icon icon="cart-o" text="购物车" @click="cartClick" />
-			<van-goods-action-button type="warning" text="加入购物车" />
+			<van-goods-action-button type="warning" text="加入购物车" @click="addCart"/>
 			<van-goods-action-button type="danger" text="立即购买" />
 		</van-goods-action>
 	</div>
@@ -63,7 +63,8 @@
 	import {
 		reqDetailData,
 		reqLikePro,
-		reqDelLike
+		reqDelLike,
+		reqUpdateCart
 	} from 'network/api'
 	import {
 		mapState,
@@ -74,7 +75,7 @@
 		data() {
 			return {
 				detialData: {}, //商品详情页数据
-				active: 0
+				active: 0 //tabs切换的下标
 			}
 		},
 		//调用函数，开始时请求详情页数据
@@ -82,11 +83,21 @@
 			this.getDetialData()
 		},
 		methods: {
+			...mapMutations(["changeLikeList"]),
+			//加入购物车
+			async addCart(){
+				//查看errcode 是0 或者 901101 就加入购物车成功
+				// const res =await reqUpdateCart({product_id:this.$route.query.id})
+				// console.log(res)
+				//判errcode 来确定是否成功
+				const {errcode} =await reqUpdateCart({product_id:this.$route.query.id})
+				if(errcode == 0 || errcode == 901101) return this.$toast('加入成功')
+				return this.$toast('加入失败')
+			},	
 			//点击购物车跳转到购物车界面
 			cartClick(){
 				this.$router.push("/cart")
 			},
-			...mapMutations(["changeLikeList"]),
 			//点击收藏 判断是否登录
 			async likeClick() {
 				const {
@@ -139,7 +150,7 @@
 				//第一次进入的时候state中还没有数据，some为空，给likeList取反
 				if (!this.userInfo.likeList) return
 				//判断当前商品 是否已经收藏
-				 return this.userInfo.likeList.some(item => item.product_id = this.$route.query.id)
+				 return this.userInfo.likeList.some(item => item.product_id == this.$route.query.id)
 			}
 		}
 

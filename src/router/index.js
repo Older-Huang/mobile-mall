@@ -58,7 +58,6 @@ const router = new VueRouter({
 
 // 全局前置路由守卫
 router.beforeEach((to, from, next) => {
-  console.log(to)
   if(to.meta.isLogin){
     //需要判断是否已经登录
     if(sessionStorage.getItem("token")){
