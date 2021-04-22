@@ -24,7 +24,7 @@
 			</template>
 		</main>
 		<template v-if="isDisButton">
-			<van-submit-bar :price="totalPrice" button-text="提交订单" class="tab_border">
+			<van-submit-bar :price="totalPrice" button-text="提交订单" class="tab_border"  @submit="onSubmit">
 				共计：{{totalCount}}件
 			</van-submit-bar>
 		</template>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+	import storage from 'utils/storage'
 	import {
 		reqCartAll,
 		reqUpdateCart,
@@ -57,6 +58,25 @@
 		},
 
 		methods: {
+			//跳转到确定订单页面
+			onSubmit(){
+				//将要购买的商品数据存放到本地存储当中
+				this.$router.push('/orderConfirm')
+				// let orderList = this.cartList.filter(item => item.checked)
+				// orderList = orderList.map(item =>{
+				// 	let {product_id,price,name,cover,count} = item
+				// 	return {product_id,price,name,cover,count}
+				// })
+				let orderList =[]
+				this.cartList.forEach(item =>{
+					if(item.checked){
+						let {product_id,price,name,cover,count} = item
+						orderList.push({product_id,price,name,cover,count})
+					}
+				})
+				storage.session.set("orderList",orderList)
+				
+			},
 			//删除商品
 			async itemDel(product_id) {
 				//删除当前点击的商品

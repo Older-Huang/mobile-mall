@@ -21,7 +21,10 @@
 			<van-cell-group>
 				<van-cell title="我的订单" icon="records" is-link />
 				<van-cell title="我的收藏" icon="like-o" is-link />
-				<van-cell title="收货地址" icon="location-o" is-link />
+				<!-- from 表示从哪里来的 -->
+				<van-cell title="收货地址" icon="location-o" is-link 
+				:to="{path:'/addressList',query:{from:'me'}}"
+				/>
 				<van-cell title="用户设置" icon="setting-o" is-link />
 			</van-cell-group>
 		</main>

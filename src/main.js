@@ -8,6 +8,9 @@ import 'assets/css/reset.css'
 import 'assets/css/border.css'
 Vue.config.productionTip = false
 
+//引入价格过滤器
+import formatPrice from 'utils/filter'
+
 //引入vant
 import Vant from 'vant';
 import 'vant/lib/index.css';

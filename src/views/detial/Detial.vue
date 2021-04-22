@@ -53,13 +53,14 @@
 			<!-- 判断当前商品是否已经收藏 -->
 			<van-goods-action-icon :icon="isLike ? 'like' : 'like-o'" text="收藏" @click="likeClick" />
 			<van-goods-action-icon icon="cart-o" text="购物车" @click="cartClick" />
-			<van-goods-action-button type="warning" text="加入购物车" @click="addCart"/>
-			<van-goods-action-button type="danger" text="立即购买" />
+			<van-goods-action-button type="warning" text="加入购物车" @click="addCart" />
+			<van-goods-action-button type="danger" text="立即购买" @click="buyClick" />
 		</van-goods-action>
 	</div>
 </template>
 
 <script>
+	import storage from 'utils/storage'
 	import {
 		reqDetailData,
 		reqLikePro,
@@ -84,18 +85,32 @@
 		},
 		methods: {
 			...mapMutations(["changeLikeList"]),
+			//点击购买 跳转到订单页
+			buyClick() {
+				//跳转订单页面
+				//判断是否登录 ，没有登录 禁止存储数据
+				if(!storage.session.get("token")){return this.$router.push("/login")} 
+				this.$router.push("/orderConfirm")
+				//从商品数据中取出订单所需要的信息
+				const {id:product_id,cover,name,price} = this.detialData
+				storage.session.set("orderList",[{product_id,cover,name,price,count:1}])
+			},
 			//加入购物车
-			async addCart(){
+			async addCart() {
 				//查看errcode 是0 或者 901101 就加入购物车成功
 				// const res =await reqUpdateCart({product_id:this.$route.query.id})
 				// console.log(res)
 				//判errcode 来确定是否成功
-				const {errcode} =await reqUpdateCart({product_id:this.$route.query.id})
-				if(errcode == 0 || errcode == 901101) return this.$toast('加入成功')
+				const {
+					errcode
+				} = await reqUpdateCart({
+					product_id: this.$route.query.id
+				})
+				if (errcode == 0 || errcode == 901101) return this.$toast('加入成功')
 				return this.$toast('加入失败')
-			},	
+			},
 			//点击购物车跳转到购物车界面
-			cartClick(){
+			cartClick() {
 				this.$router.push("/cart")
 			},
 			//点击收藏 判断是否登录
@@ -150,7 +165,7 @@
 				//第一次进入的时候state中还没有数据，some为空，给likeList取反
 				if (!this.userInfo.likeList) return
 				//判断当前商品 是否已经收藏
-				 return this.userInfo.likeList.some(item => item.product_id == this.$route.query.id)
+				return this.userInfo.likeList.some(item => item.product_id == this.$route.query.id)
 			}
 		}
 
