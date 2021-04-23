@@ -10,10 +10,37 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		//登录的信息
+		//用户信息的信息
 		userInfo: {}
 	},
 	mutations: {
+		//修改userInfo里面的地址
+		changeAddressList(state, msg) {
+			let {
+				type,
+				data
+			} = msg
+			if (type === "add") {
+				//新增
+				state.userInfo.addressList.unshift(data)
+			} else if (type === "edit") {
+				//编辑地址
+				let index = state.userInfo.addressList.findIndex(item => item.id == data.id)
+				state.userInfo.addressList.splice(index, 1, data)
+			} else if (type === "del") {
+				//删除地址
+				let index = state.userInfo.addressList.findIndex(item => item.id == data)
+				state.userInfo.addressList.splice(index, 1)
+			}
+			// let index = state.userInfo.addressList.findIndex(item => item.id == data.id)
+			// if (index >= 0){
+			//   //编辑地址
+			//   state.userInfo.addressList.splice(index,1,data)
+			// }else{
+			//   //添加地址
+			//   state.userInfo.addressList.unshift(data)
+			// }
+		},
 		// 改变likelist
 		changeLikeList(state, data) {
 			let {
@@ -22,7 +49,7 @@ export default new Vuex.Store({
 			//判断收藏的是否为对象，是则添加到收藏队列里
 			if (typeof data === "object") return likeList.push(data)
 			let index = likeList.findIndex(item => item.product_id == data)
-			likeList.splice(index,1)
+			likeList.splice(index, 1)
 			//
 			// state.userInfo.likeList = likeList.filter(item => item.product_id != data)
 

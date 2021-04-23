@@ -30,3 +30,12 @@ export const reqCartAll = () => request({ url: '/cart/all' })
 
 //删除购物车数据 /cart/delete
 export const reqDelCart = (product_id) => request({ url: '/cart/delete', params: { product_id } })
+
+//新增用户收货地址 /user_address/create
+export const reqCreateAddress = (data) => request({ url: '/user_address/create', method: 'post', data })
+
+//修改用户收获地址 /user_address/update
+export const reqUpdateAddress = (id, data) => request({ url: '/user_address/update?id=' + id, method: 'post', data })
+
+//删除用户地址   /user_address/delete
+export const reqDeteleAddress = (id) => request({ url: '/user_address/delete' , params:{id} })

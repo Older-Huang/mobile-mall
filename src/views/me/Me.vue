@@ -25,7 +25,7 @@
 				<van-cell title="收货地址" icon="location-o" is-link 
 				:to="{path:'/addressList',query:{from:'me'}}"
 				/>
-				<van-cell title="用户设置" icon="setting-o" is-link />
+				<van-cell title="用户设置" icon="setting-o" is-link to='/setting'/>
 			</van-cell-group>
 		</main>
 	</div>

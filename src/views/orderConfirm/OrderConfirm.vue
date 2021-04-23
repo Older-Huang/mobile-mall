@@ -2,7 +2,7 @@
 	<!-- 确认订单 -->
 	<div class="orderConfirm">
 		<van-nav-bar title="确认订单" left-text="返回" left-arrow @click-left="$router.back()" class="nav_border" />
-		<van-cell title="请确认收货地址" is-link :to="{path:'/addressList',query:{from:'prderConfirm'}}" label="" class="address" />
+		<van-cell :title="selAddrTitle" is-link :to="{path:'/addressList',query:{from:'prderConfirm'}}" :label="selAddrDetail" class="address" />
 		
 		<van-cell-group>
 			<van-cell 
@@ -13,31 +13,56 @@
 			:label="item.price | formatPrice"
 			:icon="item.cover" />
 		</van-cell-group>
-		<van-submit-bar button-text="付款" :disabled=isFlag :price="totalPrice" class="tab_border">
+		<van-submit-bar button-text="付款" :disabled=isFlag :price="totalPrice" class="tab_border" @submit="buySubmit">
 			共计：{{totalCount}}件
 		</van-submit-bar>
+		<Password-input></Password-input>
 	</div>
+		
 </template>
 
 <script>
+	import PasswordInput from 'components/passwordInput/PasswordInput'
 	import {
 		mapState
 	} from 'vuex'
 	import storage from 'utils/storage'
 	export default {
 		name: 'OrderConfirm',
+		components:{PasswordInput},
 		data() {
 			return {
 				orderList:[] ,//订单列表
-				flag:'false'
+				flag:'false',
+				selectAddress:{}//收货地址
 			}
 		},
 		created() {
+			this.selectAddress = storage.session.get("selectAddress") || {}
 			this.orderList = storage.session.get('orderList')
+			console.log(this.selectAddress)
 		},
-		methods: {},
+		methods: {
+			//点击付款
+			buySubmit(){
+				console.log(1)
+			}
+		},
 		computed: {
 			...mapState(["userInfo"]),
+			//地址标题
+			selAddrTitle(){
+				return this.hasAddress ?  this.selectAddress.name +',' +this.selectAddress.tel : '请确认收货地址' 
+			},
+			//详细地址
+			selAddrDetail(){
+				return this.hasAddress ?this.selectAddress.address:''
+			},
+			//判断是否有地址
+			hasAddress(){
+				//通过判断selectAddress是否有id 或者name 来判断是否有地址
+				return !!(this.selectAddress.id || this.selectAddress.name)
+			},
 			//商品总价格
 			totalPrice(){
 				if(!this.orderList) return 0
@@ -81,12 +106,13 @@
 			text-overflow: ellipsis;
 		}
 	}
-	.van-cell__label{
-		color:#f50;
-	}
+	
 	.van-cell-group {
 		height: calc(100vh - 160px);
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
+		.van-cell__label{
+			color:#f50;
+		}
 	}
 </style>

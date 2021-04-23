@@ -2,7 +2,7 @@
 	<!-- 地址列表 -->
 	<div class="addressList">
 		<van-nav-bar 
-		:title="addressTitle" 
+		:title="addressTitle ? '我的收获地址' : '请选择收获地址'" 
 		left-text="返回" 
 		left-arrow 
 		@click-left="$router.back()" 
@@ -10,6 +10,7 @@
 		<van-address-list
 			:list="addressList" :switchable="!addressTitle"
 			@edit="edieAddress" @add="edieAddress({id:0})"
+			@select="selectAddress"
 		/>
 	</div>
 </template>
@@ -24,6 +25,15 @@
 			}
 		},
 		methods:{
+			//点击选择地址
+			//item 是框架自带的参数
+			selectAddress(item){
+				//看看item是什么
+				// console.log(item)
+				//将地址保存到本地存储中
+				storage.session.set("selectAddress",item)
+				this.$router.back()
+			},
 			//点击编辑地址
 			edieAddress(item){
 				//传点击的地址id
@@ -49,7 +59,7 @@
 			
 			//地址标题 判断从哪里来的
 			addressTitle(){
-			return this.$route.query.from ==='me' ? '我的收货地址' :'请选择收货地址'
+			return this.$route.query.from ==='me'
 			}
 		}
 	};

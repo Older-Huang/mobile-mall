@@ -11,10 +11,19 @@ const OrderList = () => import('views/orderList/OrderList')
 const OrderConfirm = () => import('views/orderConfirm/OrderConfirm')
 const AddressList = () => import('views/addressList/AddressList')
 const AddressEdit = () => import('views/addressEdit/AddressEdit')
+const Setting = () => import('views/setting/Setting')
 
 const routes = [{
 		path: '/',
 		redirect: '/home'
+	},
+	{
+		path: '/setting',
+		name: 'Setting',
+		component: Setting,
+		meta: {
+			isLogin: true
+		}
 	},
 	{
 		path: '/orderList',
