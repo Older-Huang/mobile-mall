@@ -11,11 +11,30 @@ const OrderList = () => import('views/orderList/OrderList')
 const OrderConfirm = () => import('views/orderConfirm/OrderConfirm')
 const AddressList = () => import('views/addressList/AddressList')
 const AddressEdit = () => import('views/addressEdit/AddressEdit')
+const OrderInfo = () => import('views/orderInfo/OrderInfo')
+const PaySuccess = () => import('views/paySuccess/PaySuccess')
+
 const Setting = () => import('views/setting/Setting')
 
 const routes = [{
 		path: '/',
 		redirect: '/home'
+	},
+	{
+		path: '/paySuccess',
+		name: 'PaySuccess',
+		component: PaySuccess,
+		meta: {
+			isLogin: true
+		}
+	},
+	{
+		path: '/orderInfo',
+		name: 'OrderInfo',
+		component: OrderInfo,
+		meta: {
+			isLogin: true
+		}
 	},
 	{
 		path: '/setting',

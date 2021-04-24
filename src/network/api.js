@@ -39,3 +39,22 @@ export const reqUpdateAddress = (id, data) => request({ url: '/user_address/upda
 
 //删除用户地址   /user_address/delete
 export const reqDeteleAddress = (id) => request({ url: '/user_address/delete' , params:{id} })
+
+//下单  /order/create
+export const reqCreateOrder = (data) => request({ url: '/order/create', method: 'post', data })
+
+//付款 /order/pay
+export const reqOrderPay = (order_id, pay_password) => request({ url: '/order/pay?order_id=' + order_id, method: 'post', data: { pay_password } })
+
+
+//获取单个订单详情 /order
+export const reqOrderInfo = (id) => request({ url: '/order',params:{id}})
+
+//获取订单列表 /order/pagination
+export const reqOrderList = (page) => request({ url: '/order/pagination',params:{page}})
+
+//获取收藏列表 /product_like/all
+export const reqLikeList = () => request({url:'/product_like/all'}) 
+
+//修改昵称 /user/setting
+export const reqSeetingNickname = (nickname) =>  request({url:'/user/setting',method:'post',data:{nickname}}) 
