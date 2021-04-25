@@ -5,7 +5,7 @@
 			<!-- 轮播图 -->
 			<van-swipe class="my-swipe" :autoplay="1500" indicator-color="#1989fa">
 				<van-swipe-item v-for="item in detialData.imgList" :key="item.id">
-					<img :src="item.path" alt="" />
+					<img v-lazy="item.path" alt="" />
 				</van-swipe-item>
 			</van-swipe>
 

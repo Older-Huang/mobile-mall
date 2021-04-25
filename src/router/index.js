@@ -13,12 +13,69 @@ const AddressList = () => import('views/addressList/AddressList')
 const AddressEdit = () => import('views/addressEdit/AddressEdit')
 const OrderInfo = () => import('views/orderInfo/OrderInfo')
 const PaySuccess = () => import('views/paySuccess/PaySuccess')
+const LikeList = () => import('views/likeList/LikeList')
+const Search = () => import('views/search/Search')
+const CitySelect = () => import('views/citySelect/CitySelect')
 
 const Setting = () => import('views/setting/Setting')
+const SetAvatar = () => import('views/setting/SetAvatar')
+const SetNickName = () => import('views/setting/SetNickName')
+const SetLoginPassword = () => import('views/setting/SetLoginPassword')
+const SetPayPassword = () => import('views/setting/SetPayPassword')
 
 const routes = [{
 		path: '/',
 		redirect: '/home'
+	},
+	{
+		path: '/CitySelect',
+		name: 'CitySelect',
+		component: CitySelect,
+	},
+	{
+		path: '/search',
+		name: 'Search',
+		component: Search,
+	},
+	{
+		path: '/setAvatar',
+		name: 'SetAvatar',
+		component: SetAvatar,
+		meta: {
+			isLogin: true
+		}
+	},
+	{
+		path: '/setNickName',
+		name: 'SetNickName',
+		component: SetNickName,
+		meta: {
+			isLogin: true
+		}
+	},
+	{
+		path: '/setLoginPassword',
+		name: 'SetLoginPassword',
+		component: SetLoginPassword,
+		meta: {
+			isLogin: true
+		}
+	},
+	{
+		path: '/setPayPassword',
+		name: 'SetPayPassword',
+		component: SetPayPassword,
+		meta: {
+			isLogin: true
+		}
+	},
+	{
+		path: '/likeList',
+		name: 'LikeList',
+		component: LikeList,
+		meta: {
+			isLogin: true
+		}
 	},
 	{
 		path: '/paySuccess',

@@ -31,6 +31,15 @@ Vue.use(ElementUI);
 //
 //调用store中的请求 重新获取用户信息
 store.dispatch("getUserInfo")
+store.dispatch('getLoaction')
+
+//图片懒加载
+import { Lazyload } from 'vant';
+Vue.use(Lazyload, {
+  error:require('./assets/img/error.jpg'),
+  loading:require('./assets/img/loding.gif')
+})
+
 
 //引入图片加载失败指令
 import defaultImg from './directive/defaultImg';

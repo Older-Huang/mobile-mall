@@ -1,5 +1,8 @@
 //请求数据的api接口
 import {request} from './request'
+import Vue from "vue"
+import { VueJsonp } from 'vue-jsonp';
+Vue.use(VueJsonp)
 
 //图片的公共路径
 export const IMGURl = "http://192.168.0.129:8360"
@@ -58,3 +61,22 @@ export const reqLikeList = () => request({url:'/product_like/all'})
 
 //修改昵称 /user/setting
 export const reqSeetingNickname = (nickname) =>  request({url:'/user/setting',method:'post',data:{nickname}}) 
+
+//修改登录密码 /user/updatePassword 
+export const reqUpdatePassword = (password, newPassword) => request({ url: '/user/updatePassword ', method: 'post', data: { password, newPassword } })
+
+//修改支付密码 /user/updatePayPassword
+export const reqUpdatePayPassword = (password, newPassword) => request({ url: '/user/updatePayPassword ', method: 'post', data: { password, newPassword } })
+
+//上传头像 /user/avatar
+export const reqUploadAvatar = (avatar) => request({ url: '/user/avatar', method: 'post', data: avatar })
+
+
+//搜索商品 /product/pagination
+export const reqSearchProducts = (key) => request({ url: '/product/pagination', params: { page:1, size:10, key } })
+
+//地理定位
+export const reqLocation = (latitude,longitude) => Vue.prototype.$jsonp('http://api.map.baidu.com/geocoder/v2/?ak=C93b5178d7a8ebdb830b9b557abce78b&callback=renderReverse&location='+latitude+','+longitude+'&output=json&pois=0')
+
+//获取带字母的城市列表 /data/city
+export const reqCityAll = () => request({url:'/data/city'})

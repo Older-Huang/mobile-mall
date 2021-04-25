@@ -2,21 +2,21 @@
 	<div class="home">
 		<van-nav-bar title="精选" class="nav_border" fixed>
 			<template #left>
-				<van-icon name="location-o" />
-				<span>深圳市</span>
+				<van-icon name="location-o" size="18" @click="$router.push('/citySelect')"/>
+				<span>{{loactionCity}}</span>
 			</template>
 			<template #right>
-				<van-icon name="search" />
+				<van-icon name="search"  @click="$router.push('/search')"/>
 			</template>
 		</van-nav-bar>
 		<main class="mainContent pContent" @scroll="scrollLoding" ref="main">
 			<div class="pItem" v-for="item in pDataList" :key="item.id" @click="pItemContent(item.id)">
-				<img :src="item.cover" @error.once="imgErr($event)" alt="">
+				<img v-lazy="item.cover" @error.once="imgErr($event)" alt="">
 				<!-- 指令解决图片加载 显示默认图片 -->
 				<!-- <img :src="item.cover" v-default-img="imgUrl" alt=""> -->
 				<div class="bottom">
 					<h3>{{item.name}}</h3>
-					<span>{{item.price}}</span>
+					<span>{{item.price | formatPrice}}</span>
 				</div>
 			</div>
 		</main>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-	
+	import{mapState} from 'vuex'
 	import {
 		reqHomeData
 	} from 'network/api'
@@ -104,6 +104,9 @@
 				this.totalPages = data.totalPages
 				this.flag = false
 			}
+		},
+		computed:{
+		  ...mapState(["loactionCity"])
 		},
 		//回到之前的滚动位置
 		activated() {

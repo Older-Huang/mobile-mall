@@ -19,14 +19,9 @@
 		<!-- 商品列表 -->
 		<div class="product">
 			<van-cell-group>
-			  <van-cell
-			    v-for="item in orderInfo.orderProducts"
-			    :key="item.product_id"
-			    :title="item.name.split(' ')[0]"
-			    :value="item.count + '件'"
-			    :label="item.price | formatPrice"
-			    :icon="item.cover"
-			  />
+				<van-cell v-for="item in orderInfo.orderProducts" :key="item.product_id"
+					:title="item.name.split(' ')[0]" :value="item.count + '件'" :label="item.price | formatPrice"
+					:icon="item.cover" />
 			</van-cell-group>
 		</div>
 		<!-- 底部 -->
@@ -65,7 +60,9 @@
 	} from 'vuex'
 	export default {
 		name: 'OrderInfo',
-		components:{PasswordInput},
+		components: {
+			PasswordInput
+		},
 		data() {
 			return {
 				id: this.$route.query.id, //订单id
@@ -75,14 +72,17 @@
 		created() {
 			this.getOrderInfo();
 		},
+		
 		methods: {
 			//
-			leftClick(){
-				return this.$router.replace('/home')
+			leftClick() {
+				if(this.$route.query.from === 'paySuccess')return this.$router.replace('/home')
+				return this.$router.back()
+				
 			},
 			//点击付款
 			payClick() {
-			  this.$refs.PasswordInput.popShow = true
+				this.$refs.PasswordInput.popShow = true
 			},
 			//请求订单详情
 			async getOrderInfo() {
@@ -96,17 +96,16 @@
 				} = await reqOrderInfo(this.id)
 				if (errcode !== 0) return this.$toast.fail("请求失败")
 				this.orderInfo = data
-				console.log(data)
 			}
 		},
 		computed: {
 			//总价
 			totalPrice() {
-			  if(!this.orderInfo.orderProducts) return
-			  return this.orderInfo.orderProducts.reduce(
-			    (p, c) => p + c.price * c.count,
-			    0
-			  )
+				if (!this.orderInfo.orderProducts) return
+				return this.orderInfo.orderProducts.reduce(
+					(p, c) => p + c.price * c.count,
+					0
+				)
 			},
 			//选择地址的详细地址
 			AddrDetail() {
@@ -142,20 +141,24 @@
 			border-bottom: .2rem solid #f4f4f4;
 		}
 	}
-	.product{
+
+	.product {
 		height: calc(100% - 4.76rem);
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
+
 		.van-cell__left-icon {
-		  font-size: 1rem;
+			font-size: 1rem;
 		}
-		.van-cell__title{
+
+		.van-cell__title {
 			display: block;
-			 white-space:nowrap;
+			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
 		}
 	}
+
 	.footer {
 		height: 1rem;
 		position: fixed;
@@ -173,8 +176,9 @@
 		.van-button {
 			width: 70%;
 		}
-		.van-cell__title span{ 
-			color:#f50;
+
+		.van-cell__title span {
+			color: #f50;
 		}
 	}
 </style>

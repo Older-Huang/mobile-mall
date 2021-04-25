@@ -19,7 +19,7 @@
 			successBtn(){
 				// this.id = this.$route.query.id
 				// console.log(this.$route.query)
-				return this.$router.push({path:'/orderInfo',query:{id:this.$route.query.id}})
+				return this.$router.push({path:'/orderInfo',query:{id:this.$route.query.id,from:'paySuccess'}})
 			}
 		},
 	}
