@@ -47,7 +47,7 @@
 			//输入内容发请求
 			async searchInput(){
 			  const {data} = await reqSearchProducts(this.searchKey)
-			  this.pDataList = data.data
+			  this.pDataList = data.productList;
 			},
 			//防抖函数
 			debounce(fun){

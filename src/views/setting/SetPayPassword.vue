@@ -43,9 +43,9 @@
 				}
 				const {
 					errcode,
-					errmsg
+					message
 				} = await reqUpdatePayPassword(this.password, this.newPassword)
-				if(errcode !== 0) return this.$toast("修改支付密码失败")
+				if(errcode !== 0) return this.$toast(`修改支付密码失败${message ? '，' + message : ''}`);
 				this.$toast('密码修改成功')
 				this.changePayPassword(this.newPassword)
 				this.password = this.newPassword = ''

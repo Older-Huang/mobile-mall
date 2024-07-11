@@ -45,18 +45,14 @@
 			//输入密码
 			onInput() {
 				//获取父组件传过来的订单id
-				// console.log(this.orderId)
 				const order_id = this.orderId
-				//这拿到的是更新后 数据没有改变的内容 而我们要的是更新后的改变了的数据的内容
-				// console.log(this.pay_passwrod)
+				//这拿到的是更新后 数据没有改变的内容 而我们要的是更新后的改变了的数据的内容 
 				//this.$nextTick() 获取更新后的输入框的内容
 				this.$nextTick(async (_) => {
 					//获取到支付密码后 便下单请求了
 					//发送下单请求 需要两个参数:订单id 和支付密码
 					//支付密码 默认为 123456
 					if (this.pay_passwrod.length >= 6) {
-						// const res = await reqOrderPay(order_id, this.pay_passwrod)
-						// console.log(res,this.userInfo)
 						//取出状态码 和 状态信息
 						const {errcode,errmsg} = await reqOrderPay(order_id, this.pay_passwrod)
 						//支付不成功 清空输入框 和错误信息

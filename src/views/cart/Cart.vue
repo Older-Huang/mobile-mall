@@ -6,7 +6,6 @@
 				<van-checkbox v-model="item.checked" v-for="item in cartList" :key="item.product_id"
 					@change="itemChangeCheck(item)">
 					<van-card :price="item.price.toFixed(2)" :title="item.name" :thumb="item.cover" @click.stop>
-
 						<template #footer>
 							<van-tag type="danger" size="large" @click="itemDel(item.product_id)">删除</van-tag>
 							<van-stepper v-model="item.count" disable-input @change="itemChangeVal(item)" />
@@ -56,17 +55,11 @@
 		created() {
 			this.getCartDate();
 		},
-
 		methods: {
 			//跳转到确定订单页面
 			onSubmit(){
 				//将要购买的商品数据存放到本地存储当中
-				this.$router.push('/orderConfirm')
-				// let orderList = this.cartList.filter(item => item.checked)
-				// orderList = orderList.map(item =>{
-				// 	let {product_id,price,name,cover,count} = item
-				// 	return {product_id,price,name,cover,count}
-				// })
+				this.$router.push({ path: '/orderConfirm', query: { cart: 1 } });
 				let orderList =[]
 				this.cartList.forEach(item =>{
 					if(item.checked){
@@ -74,13 +67,12 @@
 						orderList.push({product_id,price,name,cover,count})
 					}
 				})
-				storage.session.set("orderList",orderList)
-				
+				storage.session.set("orderList",orderList);
 			},
 			//删除商品
 			async itemDel(product_id) {
 				//删除当前点击的商品
-				const res = await reqDelCart(product_id)
+				await reqDelCart(product_id);
 				//将删除的这一项从列表中移除
 				this.cartList = this.cartList.filter(item => item.product_id != product_id)
 			},
@@ -93,9 +85,7 @@
 				await reqUpdateCart({
 					product_id,
 					count
-				})
-				// this.totalPrice
-				// this.totalCount
+				});
 			},
 
 			//复选框的状态
@@ -104,31 +94,24 @@
 				let {
 					checked,
 					product_id
-				} = item
-				//讲check的状态有布尔值改为0 或 1
-				checked = checked ? 1 : 0
+				} = item;
 				//保留check的状态
 				await reqUpdateCart({
 					product_id,
 					checked
 				})
-				// this.totalPrice
-				// this.totalCount
 			},
 			
 
 			//获取购物车数据
 			async getCartDate() {
 				//查看购物车中的数据
-				// const res = await reqCartAll()
-				// console.log(res)
 				//获取购物车中的数据
 				const {
 					data
-				} = await reqCartAll()
-				this.cartList = data
-				// this.totalPrice
-				// this.totalCount
+				} = await reqCartAll();
+
+				this.cartList = data;
 			}
 			
 		},
@@ -211,7 +194,9 @@
 				align-items: center;
 			}
 
-			.van-tag {}
+			/deep/ .van-checkbox__label {
+				flex: 1,
+			}
 
 			.van-stepper {
 				display: inline-block;

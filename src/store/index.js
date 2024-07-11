@@ -8,6 +8,7 @@ import {
 	reqUserInfo
 } from 'network/api'
 import router from '../router'
+import { Toast } from 'vant'
 
 Vue.use(Vuex)
 
@@ -33,7 +34,7 @@ export default new Vuex.Store({
 		},
 		//改变昵称
 		changeNickName(state, nickname) {
-			state.userInfo.nickname = nickname
+			state.userInfo.nickName = nickname;
 		},
 		//修改userInfo里面的地址
 		changeAddressList(state, msg) {
@@ -53,14 +54,6 @@ export default new Vuex.Store({
 				let index = state.userInfo.addressList.findIndex(item => item.id == data)
 				state.userInfo.addressList.splice(index, 1)
 			}
-			// let index = state.userInfo.addressList.findIndex(item => item.id == data.id)
-			// if (index >= 0){
-			//   //编辑地址
-			//   state.userInfo.addressList.splice(index,1,data)
-			// }else{
-			//   //添加地址
-			//   state.userInfo.addressList.unshift(data)
-			// }
 		},
 		// 改变likelist
 		changeLikeList(state, data) {
@@ -70,10 +63,7 @@ export default new Vuex.Store({
 			//判断收藏的是否为对象，是则添加到收藏队列里
 			if (typeof data === "object") return likeList.push(data)
 			let index = likeList.findIndex(item => item.product_id == data)
-			likeList.splice(index, 1)
-			//
-			// state.userInfo.likeList = likeList.filter(item => item.product_id != data)
-
+			likeList.splice(index, 1);
 		},
 		//当数据发生改变 赋值给userinfo
 		changeLoginUser(state, userInfo) {
@@ -85,12 +75,18 @@ export default new Vuex.Store({
 		async userLogin(context, userInfo) {
 			//发送登录请求
 			const {
-				data
-			} = await reqLogin(userInfo)
+				code,
+				data,
+				message
+			} = await reqLogin(userInfo);
+			if (code !== 200) {
+				return Toast(`用户信息获取失败，请重新登录${message ? '，' + message : ''}`);
+			}
 			//取出token 并保存到本地存储
 			const {
 				token
-			} = data
+			} = data;
+			message && Toast(message);
 			sessionStorage.setItem("token", token)
 			context.commit("changeLoginUser", data)
 			router.back()
@@ -98,9 +94,7 @@ export default new Vuex.Store({
 		//获取用户信息
 		async getUserInfo(context) {
 			if (sessionStorage.getItem("token")) {
-				const {
-					data
-				} = await reqUserInfo()
+				const { data } = await reqUserInfo();
 				context.commit("changeLoginUser", data)
 			}
 		},
@@ -121,49 +115,3 @@ export default new Vuex.Store({
 	},
 	modules: {}
 })
-
-// import Vue from 'vue'
-// import Vuex from 'vuex'
-// import {reqLogin,reqUserInfo} from 'network/api'
-// import router from '../router'
-// Vue.use(Vuex)
-
-// export default new Vuex.Store({
-//   state: {
-//     userInfo:{}
-//   },
-//   mutations: {
-//     // 改变likelist
-//     changeLikeList(state,data){
-//       let {likeList} = state.userInfo
-//       if(typeof data === "object") return likeList.push(data)
-//       // let index = likeList.findIndex(item => item.product_id == data)
-//       // likeList.splice(index,1)
-//       state.userInfo.likeList = likeList.filter(item => item.product_id != data)
-
-//     },
-//     //赋值userInfo
-//     changeUserInfo(state,userInfo){
-//       state.userInfo = userInfo
-//     }
-//   },
-//   actions: {
-//     // 登录
-//     async userLogin(context,userInfo){
-//       const {data} = await reqLogin(userInfo)
-//       const {token} = data
-//       sessionStorage.setItem("token",token)
-//       context.commit("changeUserInfo",data)
-//       router.back()
-//     },
-//     //获取用户信息
-//     async getUserInfo(context){
-//       if(sessionStorage.getItem("token")){
-//         const {data} = await reqUserInfo()
-//         context.commit("changeUserInfo",data)
-//       }
-//     }
-//   },
-//   modules: {
-//   }
-// })

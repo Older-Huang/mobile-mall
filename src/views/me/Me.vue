@@ -4,7 +4,7 @@
 			<!-- 没有登录 就展示默认，登录就展示用户的信息 -->
 			<template v-if = "isLogin">
 				<img :src="isImg" alt="">
-				<span >{{userInfo.nickname}}</span>
+				<span >{{userInfo.nickName}}</span>
 			</template>
 			<template v-else>
 				<img src="~assets/img/profile.png" alt="">
@@ -13,10 +13,10 @@
 		</header>
 		<main>
 			<van-grid>
-				<van-grid-item icon="paid" text="待付款" />
-				<van-grid-item icon="free-postage" text="待发货" />
-				<van-grid-item icon="tosend" text="已发货" />
-				<van-grid-item icon="logistics" text="已完成" />
+				<van-grid-item icon="paid" text="待付款" is-link to='/orderList?status=0' />
+				<van-grid-item icon="free-postage" text="待发货" is-link to='/orderList?status=1' />
+				<van-grid-item icon="tosend" text="已发货" is-link to='/orderList?status=2' />
+				<van-grid-item icon="logistics" text="已完成" is-link to='/orderList?status=3' />
 			</van-grid>
 			<van-cell-group>
 				<van-cell title="我的订单" icon="records" is-link to='/orderList'/>
@@ -38,7 +38,6 @@
 		name: 'Me',
 		data() {
 			return {
-				imgUrl:IMGURl //图片公共路劲
 			}
 		},
 		methods:{},
@@ -49,7 +48,7 @@
 				//取出图片的地址
 				const {avatar} = this.userInfo
 				//如果没有头像 则用本地默认的头像
-				return avatar ? this.imgUrl + avatar : require('../../assets/img/touxiang.png')
+				return avatar || require('../../assets/img/touxiang.png');
 			},
 			//用户是否登录
 			isLogin(){

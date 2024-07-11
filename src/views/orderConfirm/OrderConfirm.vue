@@ -47,21 +47,17 @@
 				//判断是否有收货地址
 				if(!this.hasAddress)return this.$toast("请选择收货地址")
 				//下单 需要 用户的订单id 和 商品列表
-				// console.log(this.selectAddress)
-				// console.log(this)
 				const {id:user_address_id} = this.selectAddress
-				const {orderList:orderProductList} = this
+				const {orderList:orderProductList} = this;
+				const { cart } = this.$route.query;
 				//发送下单请求
-				// const res = await reqCreateOrder({user_address_id,orderProductList})
-				// console.log(res)
 				//请求成功 拿到状态码 和 数据 data
-				const {errcode,data} = await reqCreateOrder({user_address_id,orderProductList})
+				const {errcode,data} = await reqCreateOrder({user_address_id,orderProductList, cart})
 				//判断下单是否成功
 				if(errcode !== 0) return this.$toast("下单失败")
 				//将订单id 传给子组件 弹出 弹出层
 				this.order_id = data.id
 				this.$refs.PasswordInput.popShow=true
-				// console.log(this.orderList)
 			}
 		},
 		computed: {

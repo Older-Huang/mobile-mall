@@ -71,6 +71,7 @@
 		mapState,
 		mapMutations
 	} from 'vuex'
+
 	export default {
 		name: 'Detial',
 		data() {
@@ -81,7 +82,7 @@
 		},
 		//调用函数，开始时请求详情页数据
 		created() {
-			this.getDetialData()
+			this.getDetialData();
 		},
 		methods: {
 			...mapMutations(["changeLikeList"]),
@@ -89,48 +90,53 @@
 			buyClick() {
 				//跳转订单页面
 				//判断是否登录 ，没有登录 禁止存储数据
-				if(!storage.session.get("token")){return this.$router.push("/login")} 
-				this.$router.push("/orderConfirm")
+				if(!storage.session.get("token") || !this.userInfo){return this.$router.push("/login")};
 				//从商品数据中取出订单所需要的信息
-				const {id:product_id,cover,name,price} = this.detialData
+				const {id:product_id,imgList,name,price} = this.detialData;
+				const cover = imgList[0].path;
 				storage.session.set("orderList",[{product_id,cover,name,price,count:1}])
+				this.$router.push("/orderConfirm");
 			},
 			//加入购物车
 			async addCart() {
 				//查看errcode 是0 或者 901101 就加入购物车成功
-				// const res =await reqUpdateCart({product_id:this.$route.query.id})
-				// console.log(res)
 				//判errcode 来确定是否成功
 				const {
-					errcode
+					errcode,
 				} = await reqUpdateCart({
 					product_id: this.$route.query.id
 				})
-				if (errcode == 0 || errcode == 901101) return this.$toast('加入成功')
-				return this.$toast('加入失败')
+				if (errcode === 0 || errcode === 901101) return this.$toast('加入成功');
+				this.$toast('加入失败')
+				return ;
 			},
 			//点击购物车跳转到购物车界面
 			cartClick() {
-				this.$router.push("/cart")
+				this.$router.push("/cart");
 			},
 			//点击收藏 判断是否登录
 			async likeClick() {
 				const {
 					id
-				} = this.$route.query
+				} = this.$route.query;
+
 				if (this.isLike) {
 					//已经收藏 需要取消收藏
 					const {
-						errcode
+						errcode,
 					} = await reqDelLike(id)
-					if (errcode !== 0) return
+					if (errcode !== 0) {
+						return ;
+					}
 					this.changeLikeList(id)
 				} else {
 					//没有收藏 需要收藏
 					const {
-						errcode
+						errcode,
 					} = await reqLikePro(id)
-					if (errcode !== 0) return
+					if (errcode !== 0) {
+						return ;
+					}
 					//从当前商品中取出id 名字等属性
 					const {
 						id: product_id,
@@ -144,7 +150,6 @@
 						name,
 						cover
 					})
-
 				}
 			},
 			//请求数据
@@ -152,20 +157,18 @@
 				//this.$route.query.id 拿到点击商品的id
 				const {
 					data
-				} = await reqDetailData(this.$route.query.id)
-				this.detialData = data
+				} = await reqDetailData(this.$route.query.id);
+				this.detialData = data?.data ||  {};
 			}
 		},
 		computed: {
 			...mapState(['userInfo']),
 			isLike() {
 				//获取当前用户收藏商品的数据列表
-				// console.log(this.UserInfo.likeList)
-
 				//第一次进入的时候state中还没有数据，some为空，给likeList取反
-				if (!this.userInfo.likeList) return
+				if (!this.userInfo?.likeList) return;
 				//判断当前商品 是否已经收藏
-				return this.userInfo.likeList.some(item => item.product_id == this.$route.query.id)
+				return this.userInfo?.likeList.some(item => String(item.product_id) === this.$route.query.id);
 			}
 		}
 

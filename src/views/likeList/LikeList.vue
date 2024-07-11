@@ -4,12 +4,12 @@
 		<main class="mainContent">
 			<van-cell 
 			v-for="item in likeList"
-			:key = "item.id"
+			:key = "item.product_id"
 			:title="item.name" 
 			is-link 
 			:icon="item.cover"
 			:label="item.price | formatPrice"
-			:to="{path:'/detial',query:{id:item.id}}" />
+			:to="{path:'/detial',query:{id:item.product_id}}" />
 		</main>
 	</div>
 </template>

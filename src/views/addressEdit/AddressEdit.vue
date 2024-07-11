@@ -70,7 +70,8 @@
 					addressDetail: detail, //详细地址
 					tel: mobile, //电话
 					areaCode: code, //地区编码
-				} = content
+					isDefault,
+				} = content;
 				//default:0
 				//配置地址参数，新建地址所要的参数
 				const saveAddrParams = {
@@ -81,25 +82,23 @@
 					detail,
 					mobile,
 					code,
-					default: 0
+					default: isDefault,
 				}
 
 				//新建地址
 				if (this.fromAdd) {
 					//查看新建地址
-					// const res = reqCreateAddress(saveAddrParams)
-					// console.log(res)
 					//结构出状态码，和地址信息
 					const {
 						errcode,
 						data
-					} = await reqCreateAddress(saveAddrParams)
+					} = await reqCreateAddress(saveAddrParams);
 					if (errcode !== 0) return this.$toast('修改地址失败')
 					//将新增的数据保存到vuex,传两个参数，一个 类型，一个 对象 data
 					this.changeAddressList({
 						data,
 						type: 'add'
-					})
+					});
 				} else {
 					//编辑地址
 					//两个参数， 一个点击的地址id 一个地址
@@ -144,7 +143,9 @@
 					city,
 					country: county,
 					detail: addressDetail,
-				} = addrItem
+					code: areaCode,
+					default: isDefault,
+				} = addrItem;
 				return {
 					id,
 					name,
@@ -152,7 +153,9 @@
 					province,
 					city,
 					county,
-					addressDetail
+					addressDetail,
+					areaCode,
+					isDefault,
 				}
 			}
 		}

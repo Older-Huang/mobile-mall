@@ -13,7 +13,6 @@
 			<div class="pItem" v-for="item in pDataList" :key="item.id" @click="pItemContent(item.id)">
 				<img v-lazy="item.cover" @error.once="imgErr($event)" alt="">
 				<!-- 指令解决图片加载 显示默认图片 -->
-				<!-- <img :src="item.cover" v-default-img="imgUrl" alt=""> -->
 				<div class="bottom">
 					<h3>{{item.name}}</h3>
 					<span>{{item.price | formatPrice}}</span>
@@ -94,14 +93,12 @@
 			async getHomeData(page) {
 				this.flag = true
 				//取出请求的数据
-				let {
-					data
-				} = await reqHomeData(page)
+				let { data } = await reqHomeData(page)
 				//将商品数据依次添加到数据列表中
 				// this.pDataList = this.pDataList.concat(data.data)
-				this.pDataList = [...this.pDataList, ...data.data]
+				this.pDataList = [...this.pDataList, ...(data?.productList || [])];
 				//商品总页数
-				this.totalPages = data.totalPages
+				this.totalPages = data?.totalPages;
 				this.flag = false
 			}
 		},
@@ -122,6 +119,11 @@
 </script>
 
 <style lang="less" scoped>
+	.home {
+		height: 100vh;
+		overflow: hidden;
+	}
+
 	.van-nav-bar {
 		.van-icon {
 			font-size: .36rem;
@@ -134,6 +136,7 @@
 		justify-content: space-around;
 		flex-wrap: wrap;
 		overflow-y: scroll;
+		height: calc(100% - 2.1rem);
 
 		.pItem {
 			width: 48%;

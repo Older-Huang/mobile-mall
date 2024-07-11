@@ -8,8 +8,11 @@
 		@click-left="$router.back()" 
 		class="nav_border" />
 		<van-address-list
-			:list="addressList" :switchable="!addressTitle"
-			@edit="edieAddress" @add="edieAddress({id:0})"
+			:list="addressList"
+			:switchable="!addressTitle"
+			v-model="chosenAddressId"
+			@edit="edieAddress"
+			@add="edieAddress({id:0})"
 			@select="selectAddress"
 		/>
 	</div>
@@ -21,7 +24,7 @@
 	export default {
 		data() {
 			return {
-
+				chosenAddressId: '',
 			}
 		},
 		methods:{
@@ -46,13 +49,13 @@
 			//地址列表属性
 			addressList(){
 				//结构出地址列表出数组
-				const { addressList } = this.userInfo
-				let addrList =[]
+				const { addressList } = this.userInfo;
+				let addrList =[];
 				addressList.forEach((item) =>{
 					//取出地址需要的信息
-					const {id,mobile:tel,name,province,city,country,detail} = item
+					const { id,mobile:tel,name,province,city,country,detail } = item;
 					//往地址数组中添加 
-					addrList.push({id,tel,name,address:`${province} ${city} ${country} ${detail}`})
+					addrList.push({ id,tel,name,address:`${province} ${city} ${country} ${detail}` })
 				})
 				return addrList
 			},

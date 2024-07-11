@@ -23,7 +23,7 @@
 			}
 		},
 		created() {
-			this.nickname = this.userInfo.nickname
+			this.nickname = this.userInfo.nickName
 		},
 		methods:{
 			//点击 修改默认昵称
@@ -35,8 +35,7 @@
 			},
 			//修改昵称
 			async settingClick(){
-			//获取昵称
-			 const {errcode,data} = await reqSeetingNickname(this.userInfo.nickname)
+			 const { errcode } = await reqSeetingNickname(this.userInfo.nickName)
 			 if(errcode !== 0) return this.$toast("修改失败")
 			 this.$router.push("/me")
 			}
@@ -48,7 +47,7 @@
 			    this.changeNickName(newVlaue)
 			  },
 			  get(){
-			    return this.userInfo.nickname
+			    return this.userInfo.nickName
 			  }
 			}
 		}

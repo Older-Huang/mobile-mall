@@ -68,9 +68,8 @@
 			imgSrc() {
 				const {
 					avatar
-				} = this.userInfo
-				console.log(avatar)
-				return avatar ? this.imgUrl + avatar : require('assets/img/profile.png')
+				} = this.userInfo;
+				return avatar ? this.imgUrl + avatar : require('assets/img/profile.png');
 			}
 		}
 

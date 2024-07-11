@@ -4,9 +4,6 @@ import Vue from "vue"
 import { VueJsonp } from 'vue-jsonp';
 Vue.use(VueJsonp)
 
-//图片的公共路径
-export const IMGURl = "http://192.168.0.129:8360"
-
 //获取首页分页数据 /product/pagination
 export const reqHomeData = (page,size=10) => request({url:'/product/pagination',params:{page,size}})
 
@@ -23,10 +20,10 @@ export const reqDelLike = (product_id) => request({url:'/product_like/delete',pa
 export const reqLogin = (data) => request({url:'/user/signin',method:'post',data})
 
 //获取用户信息 /user/info
-export const reqUserInfo = () => request({ url:'/user/info'})
+export const reqUserInfo = () => request({ url:'/user/info'});
 
 //加入购物车/cart/update
-export const reqUpdateCart = (data) => request({ url: '/cart/update', method: 'post', data })
+export const reqUpdateCart = (data) => request({ url: '/cart/update', method: 'post', data });
 
 //获取购物车数据 /cart/all
 export const reqCartAll = () => request({ url: '/cart/all' })
@@ -54,7 +51,7 @@ export const reqOrderPay = (order_id, pay_password) => request({ url: '/order/pa
 export const reqOrderInfo = (id) => request({ url: '/order',params:{id}})
 
 //获取订单列表 /order/pagination
-export const reqOrderList = (page) => request({ url: '/order/pagination',params:{page}})
+export const reqOrderList = (page, status) => request({ url: '/order/pagination',params:{page, status}})
 
 //获取收藏列表 /product_like/all
 export const reqLikeList = () => request({url:'/product_like/all'}) 
@@ -66,11 +63,10 @@ export const reqSeetingNickname = (nickname) =>  request({url:'/user/setting',me
 export const reqUpdatePassword = (password, newPassword) => request({ url: '/user/updatePassword ', method: 'post', data: { password, newPassword } })
 
 //修改支付密码 /user/updatePayPassword
-export const reqUpdatePayPassword = (password, newPassword) => request({ url: '/user/updatePayPassword ', method: 'post', data: { password, newPassword } })
+export const reqUpdatePayPassword = (password, newPassword) => request({ url: '/user/updatePayPassword', method: 'post', data: { password, newPassword } })
 
 //上传头像 /user/avatar
 export const reqUploadAvatar = (avatar) => request({ url: '/user/avatar', method: 'post', data: avatar })
-
 
 //搜索商品 /product/pagination
 export const reqSearchProducts = (key) => request({ url: '/product/pagination', params: { page:1, size:10, key } })
@@ -79,4 +75,4 @@ export const reqSearchProducts = (key) => request({ url: '/product/pagination', 
 export const reqLocation = (latitude,longitude) => Vue.prototype.$jsonp('http://api.map.baidu.com/geocoder/v2/?ak=C93b5178d7a8ebdb830b9b557abce78b&callback=renderReverse&location='+latitude+','+longitude+'&output=json&pois=0')
 
 //获取带字母的城市列表 /data/city
-export const reqCityAll = () => request({url:'/data/city'})
+export const reqCityAll = () => request({url:'/data/city'});

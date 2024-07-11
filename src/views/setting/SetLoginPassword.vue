@@ -44,11 +44,11 @@
 				}
 				
 				//发送修改请求
-				const { errcode,errmsg } = await reqUpdatePassword(
+				const { errcode, message } = await reqUpdatePassword(
 				  this.password,
 				  this.newPassword
 				)
-				if(errcode !== 0) return this.$toast("修改失败")
+				if(errcode !== 0) return this.$toast(`修改密码失败${message ? '，' + message : ''}`);
 				//清空输入框
 				 this.password = this.newPassword = ''
 				 //清楚本地存储的token
