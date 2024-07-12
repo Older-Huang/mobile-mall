@@ -484,7 +484,7 @@ class UserController extends Controller {
             if (!res || !isSuccess(res)) {
                 return newErrorRep;
             }
-            const avatarPath = `/api/img?id=${res.insertId}`;
+            const avatarPath = `/api/v2/img?id=${res.insertId}`;
             result = await app.mysql.update('user', { id: userInfo.id, avatar: avatarPath });
             newSuccessRep.data = {
                 avatar: avatarPath,

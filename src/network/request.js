@@ -7,7 +7,7 @@ import cookie from 'cookie';
 
 export const request = config => {
 	const inst = axios.create({
-		baseURL: '/api',
+		baseURL: '/api/v2',
 		timeout: 10000
 	})
 	// 请求拦截

@@ -2,6 +2,7 @@ const path = require('path')
 const resolve = dir => path.join(__dirname, dir)
 
 module.exports = {
+	publicPath: '/mobile',
 	chainWebpack: (config) => {
 		config.resolve.alias
 			.set('@', resolve('src'))
@@ -20,8 +21,8 @@ module.exports = {
 		// Paths
 		proxy: {
 			//配置跨域-将所有/api的请求拦截，代理到target上
-			'/api': {
-				target: "http://127.0.0.1:7001",
+			'/api/v2': {
+				target: "http://119.23.70.54",
 				changOrigin: true,
 				ws: true
 			}

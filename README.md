@@ -24,7 +24,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 开启后端服务
 移步到server文件夹
 ```
-cd moblia-mall-server
+cd mobile-mall-server
 ```
 首先安装依赖
 ```

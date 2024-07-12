@@ -2,7 +2,7 @@
 exports.keys = '720356071982';
 
 // 基础路径
-exports.$baseURL = '/api';
+exports.$baseURL = '/api/v2';
 
 // 配置全局中间件
 exports.middleware = ['bodyMount', 'validateAuthorization'];
@@ -20,7 +20,7 @@ exports.mysql = {
       // 密码
       password: 'Weaver@2023',
       // 数据库名
-      database: 'moblia_mall'
+      database: 'mobile_mall'
     },
     // 是否加载到 app 上，默认开启
     app: true,
@@ -40,4 +40,11 @@ exports.security = {
 // 文件上传后开启file模式
 exports.multipart = {
   mode: 'file',
+};
+
+// 更改端口等配置
+exports.cluster = {
+  listen: {
+    port: 7002,
+  }
 };

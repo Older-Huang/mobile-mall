@@ -4,7 +4,7 @@ module.exports = app => {
     const baseURL = config.$baseURL || '';
 
     // home
-    router.get(`${baseURL}/`, controller.home.index);
+    router.get(`${baseURL}`, controller.home.index);
     router.get(`${baseURL}/product/pagination`, controller.home.product);
     router.get(`${baseURL}/product`, controller.home.productInfo);
     router.get(`${baseURL}/img`, controller.home.img);

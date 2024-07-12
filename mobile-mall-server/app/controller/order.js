@@ -32,7 +32,7 @@ class OrderController extends Controller {
         if (!order || !isSuccess(order)) {
             return newErrorRep;
         }
-        console.log(body);
+
         const userOrder = JSON.parse(userInfo.order);
         userOrder.unshift(order.insertId);
         const result = await app.mysql.update('user', {

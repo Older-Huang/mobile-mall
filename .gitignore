@@ -1,8 +1,8 @@
 .DS_Store
 node_modules
 /dist
-moblia-mall-server/logs
-moblia-mall-server/run
+mobile-mall-server/logs
+mobile-mall-server/run
 
 # local env files
 .env.local
